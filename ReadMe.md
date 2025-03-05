@@ -1,5 +1,5 @@
 # CryptX
- A fullstack cryptocurrency exchange web application, follows the microservice architecture with upto 8 microservices containerized and run using docker containers, managed and orchestrated with docker compose. 
+ A fullstack cryptocurrency exchange web application, follows the microservices architecture with upto 8 microservices containerized and run using docker containers, managed and orchestrated with docker compose. 
 
  
 ## Frontend
