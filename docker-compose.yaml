@@ -1,0 +1,157 @@
+services:
+  gobackend:
+    container_name: gobackend
+    hostname: gobackend
+    build:
+      context: ./GoBackend
+      dockerfile: dockerfile
+    env_file:
+      - GoBackend/.env
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+    depends_on:
+      - kafka
+    volumes:
+      - type: bind
+        source: ./GoBackend/main.go
+        target: /go/src/GoBackend/main.go
+      - type: bind
+        source: ./GoBackend/db/db.go
+        target: /go/src/GoBackend/db/db.go
+
+  postgresdb:
+    container_name: postgresdb
+    hostname: postgresdb
+    build:
+      context: ./PostgressDb
+      dockerfile: dockerfile
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: cryptx
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST_AUTH_METHOD: trust
+    networks:
+      - app-network 
+
+  frontend:
+    container_name: frontend
+    hostname: frontend
+    build:
+      context: ./CryptXFrontend
+      dockerfile: dockerfile
+    ports:
+      - "5173:5173"
+    networks:
+      - app-network
+    volumes:
+      - type: bind
+        source: ./CryptXFrontend/src
+        target: /app/src
+
+
+  nodejs_backend:
+    container_name: nodejs_backend
+    hostname: nodejs_backend
+    build:
+      context: ./CryptXNodeJsBackend
+      dockerfile: dockerfile
+    env_file:
+      - CryptXNodeJsBackend/.env
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+    depends_on:
+      - rabbitmq
+    volumes:
+      - type: bind
+        source: ./CryptXNodeJsBackend/Server.js
+        target: /app/Server.js
+      - type: bind
+        source: ./CryptXNodeJsBackend/userSchema.js
+        target: /app/userSchema.js
+      - type: bind
+        source: ./CryptXNodeJsBackend/db.js
+        target: /app/db.js
+      - type: bind
+        source: ./CryptXNodeJsBackend/consumer.js
+        target: /app/consumer.js
+      - type: bind
+        source: ./CryptXNodeJsBackend/wait-for-it.sh
+        target: /app/wait-for-it.sh
+    environment:
+      - RABBITMQ_URL=amqp://user:password@rabbitmq:5672
+
+  websocket_server:
+    container_name: websocket_server
+    hostname: websocket_server
+    build:
+      context: ./websocketServer
+      dockerfile: dockerfile
+    env_file:
+      - websocketServer/.env
+    ports:
+      - "3001:3001"
+    networks:
+      - app-network
+    volumes:
+      - type: bind
+        source: ./websocketServer/server.js
+        target: /app/server.js
+  
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    hostname: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: password
+    logging:
+      driver: "none"  
+    networks:
+      - app-network
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.4.4
+    container_name: zookeeper
+    hostname: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - 22181:2181
+    networks:
+      - app-network
+  
+  kafka:
+    image: confluentinc/cp-kafka:7.4.4
+    container_name: kafka
+    hostname: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - 29092:29092
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - app-network
+    volumes:
+      - ./check_and_create_topic.sh:/usr/bin/check_and_create_topic.sh
+      - ./wait-for-it.sh:/usr/bin/wait-for-it.sh
+    entrypoint: ["bash", "-c", "chmod +x /usr/bin/check_and_create_topic.sh && chmod +x /usr/bin/wait-for-it.sh && /usr/bin/wait-for-it.sh zookeeper:2181 -t 60 -- /usr/bin/check_and_create_topic.sh"]
+
+networks:
+  app-network:
+    driver: bridge

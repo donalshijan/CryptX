@@ -1,0 +1,370 @@
+  
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  a {
+    color: var(--text-color);
+    text-decoration: none;;
+  }
+  
+  /* Top Navigation Bar */
+  
+  /* <nav> */
+  .navbar {
+    height: var(--nav-size);
+    max-width : 100%;
+    background-color: var(--bg-accent);
+    padding: 0 1rem;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+  }
+  
+  /* <ul> */
+  .navbar-nav {
+    max-width: 100%;
+    padding: 0 2em;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  /* <li> */
+  .nav-item {
+    display: flex; 
+    align-items: center;
+    justify-content:  center;
+    z-index: 3;
+    min-width: 125px;
+    min-height: 55px;
+  }
+  .nav-item::before,
+.nav-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  height: 2px; /* Adjust as needed */
+  background-color: var(--text-color); /* Set the color of the indicator */
+  transition: width 0.3s, left 0.3s; /* Add transition for smooth animation */
+}
+
+.nav-item::before {
+  left: var(--beforeElementLeft);
+  width: var(--beforeElementWidth); /* Set the width based on beforeElementWidth */
+}
+
+.nav-item::after {
+  left: var(--afterElementLeft);
+  width: var(--afterElementWidth); /* Set the width based on afterElementWidth */
+}
+  .middle-nav{
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      gap: 10px;
+  }
+  .middle-nav li:hover .active-link-indicator {
+    left: 0;
+    width: 100%;
+    opacity: 1;
+  }
+  .navbar-link-button{
+    min-height: 55px;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-color);
+      background-color: var(--bg-accent);
+      /* border-top: 2px solid var(--text-color); */
+      /* box-shadow: 0px 0px 0px 0px var(--text-color); */
+      transition: background-color 0.3s, border-bottom 0.3s, border 0.3s ;
+  }
+  .navbar-link-button:hover{
+    color: var(--bg-accent);
+    box-shadow: 0px 0px 3px 1px var(--text-color);
+    background-color: var(--text-color);
+    border-bottom: 4px solid var(--bg);
+  }
+  .navbar-link-button:active,
+  .navbar-link-button:focus {
+    color: var(--text-color);
+    background-color: var(--bg);
+    border-top: 2px solid var(--text-color);
+    border-right: 2px solid var(--text-color);
+    border-left: 2px solid var(--text-color);
+    border-bottom: 2px solid var(--bg);
+    border-radius: 30px 30px 0px 0px;
+  }
+  .navbar-link-button.active {
+    color: var(--text-color);
+    background-color: var(--bg);
+    border-top: 2px solid var(--text-color);
+    border-right: 2px solid var(--text-color);
+    border-left: 2px solid var(--text-color);
+    border-bottom: 2px solid var(--bg);
+    border-radius: 30px 30px 0px 0px;
+    box-shadow: none;
+  }
+  .navbar-link-button:active:hover,
+.navbar-link-button:focus:hover {
+  color: var(--text-color);
+  box-shadow: none; 
+  background-color: var(--bg); 
+  border-bottom: 2px solid var(--bg); 
+}
+  .navbar-icon:hover {
+    filter: brightness(1.4);
+  }
+  
+  .navbar-icon svg { 
+    fill: var(--text-color);
+    width: 20px;
+    height: 20px;
+  }
+  
+  /* Icon Button */
+  .navbar-icon {
+    --button-size: calc(var(--nav-size) * 0.5);
+    width: var(--button-size);
+    height: var(--button-size);
+    background-color: var(--bg);
+    color: var(--bg);
+    border-radius: 50%;
+    padding: 6px;
+    margin: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: filter 0.3s;
+  }
+  .active-link-indicator{
+    background-color: var(--text-color);
+    --button-size: calc(var(--nav-size) * 0.5);
+    width: calc(var(--button-size)*3);
+    height: var(--button-size);
+    opacity: 0;
+      position: absolute;
+      z-index: 2; /* Higher value to place it above other elements */
+      transition: left 0.3s ease, width 0.3s ease opacity 0.3s ease; /* Smooth transition */
+  }
+.active-link-indicator::before,
+.active-link-indicator::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  height: 4px;
+  background-color: red; /* Set the color of the indicator */
+  transition: width 0.3s; /* Add transition for smooth animation */
+}
+
+.active-link-indicator::before {
+  left: 0;
+  width: calc(10px + 10px);
+}
+
+.active-link-indicator::after {
+  right: 0;
+  width: calc(10px + 10px);
+}
+  /* Dropdown Menu */
+  
+  .dropdown {
+    position: absolute;
+    top: 58px;
+    width: 300px;
+    transform: translateX(-45%);
+    background-color: var(--bg-accent);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    overflow: hidden;
+    transition: height var(--speed) ease;
+  }
+  
+  .menu {
+    width: 100%;
+  }
+  
+  .menu-item {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    border-radius: var(--border-radius);
+    transition: background var(--speed);
+    padding: 0.5rem;
+  }
+  .navbar-icon{
+    color: var(--bg);
+    background-color: var(--text-color);
+  }
+  .menu-item .left-icon {
+    margin-right: 0.5em;
+    max-width: 35px;
+    min-width: 30px;
+  }
+  
+  #gearIconElement{
+  }
+  .menu-item .left-icon:hover {
+    filter: none;
+  }
+  
+  .menu-item:hover {
+    background-color: var(--bg);
+  }
+  
+  .right-icon {
+    margin-left: auto;
+  }
+  
+  /* CSSTransition classes  */
+  .menu-primary-enter {
+    position: absolute;
+    transform: translateX(-110%);
+  }
+  .menu-primary-enter-active {
+    transform: translateX(0%);
+    transition: all var(--speed) ease;
+  }
+  .menu-primary-exit {
+    position: absolute;
+  }
+  .menu-primary-exit-active {
+    transform: translateX(-110%);
+    transition: all var(--speed) ease;
+  }
+  
+  
+  .menu-secondary-enter {
+    transform: translateX(110%);
+  }
+  .menu-secondary-enter-active {
+    transform: translateX(0%);
+    transition: all var(--speed) ease;
+  }
+  .menu-secondary-exit {
+  
+  }
+  .menu-secondary-exit-active {
+    transform: translateX(110%);
+    transition: all var(--speed) ease;
+  }
+  
+  @media (max-width: 768px) {
+    .hamburger-icon {
+        display: block !important;
+        visibility: visible !important; /* Hide the icon on larger screens */
+      }
+      .navbar{
+        position: absolute;
+        top: 50px;
+          display: none;
+          max-height: 50vh;
+          height: 50vh;
+          width:90vw;
+      }
+    .navbar-nav {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding-left: 1em;
+      padding-right: 1em;
+      gap: 10px;
+      position:inherit;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background-color: var(--bg);
+      z-index: 999; /* Ensure the navbar stays above other content */
+      transform: translateX(-100);
+      transition: transform var(--speed) ease;
+    }
+
+    .middle-nav {
+      width: 100%;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      gap: 10px;
+      flex-direction: column;
+  }
+  
+
+    .navbar-nav.show {
+      transform: translateX(0);
+    }
+  
+    .nav-item {
+      min-width: 10px;
+      width: 100%;
+    }
+    .nav-item::after,.nav-item::before{
+      display: none;
+    }
+    .navbar-link-button:active,
+    .navbar-link-button:focus,.navbar-link-button.active {
+      border-bottom: 2px solid var(--text-color);
+      border-radius: 20px 20px 20px 20px;
+    }
+    .navbar-link-button:focus:hover{
+      border-bottom: 4px solid var(--text-color);
+    }
+
+    .navbar-icon {
+      width: var(--button-size);
+      height: var(--button-size);
+    }
+  }
+
+  @media (min-width: 769px) {
+    .navbar {
+        display: block !important; /* Ensure the navbar is displayed for larger screens */
+    }
+}
+
+  /* Hamburger Icon CSS */
+  .hamburger-icon {
+    display: none; /* Hide the icon on larger screens */
+    cursor: pointer;
+    padding: 10px;
+  }
+  
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 25px;
+    height: 20px;
+  }
+  
+  .hamburger span {
+    width: 100%;
+    height: 2px;
+    background-color: var(--text-color);
+    transition: transform 200ms ease;
+  }
+  
+  .hamburger.active span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+  }
+  
+  .hamburger.active span:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .hamburger.active span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+  }
+
+.icon-image{
+  margin-right: 0.5em;
+  max-width: 30px;
+  min-width: 20px;
+}

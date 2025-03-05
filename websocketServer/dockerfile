@@ -1,0 +1,19 @@
+# Use an official Node.js runtime as the base image
+FROM node:14
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy your WebSocket server files into the container
+COPY . .
+
+# Install application dependencies (if you have a package.json file)
+# If you don't have a package.json, make sure to install dependencies manually.
+COPY package*.json ./
+RUN npm install
+
+# Expose the port on which your WebSocket server will run
+EXPOSE 3001
+
+# Define the command to start your WebSocket server
+CMD ["npm", "start"]

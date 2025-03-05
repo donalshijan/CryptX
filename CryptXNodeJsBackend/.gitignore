@@ -1,0 +1,28 @@
+# Ignore Node.js related files
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Ignore development environment files
+.env
+
+# Ignore editor specific files
+.vscode/
+.idea/
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore log files
+*.log
+
+# Ignore build output
+dist/
+
+# Ignore dependency lock files
+package-lock.json
+yarn.lock
+
+#
+cryptx-394700-04373c3827f3.json

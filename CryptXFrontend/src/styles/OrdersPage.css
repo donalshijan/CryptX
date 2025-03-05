@@ -1,0 +1,80 @@
+.toggle-switch-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  
+  .toggle-switch {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background-color: var(--bg-accent);
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  
+  .toggle-button {
+    flex: 1;
+    padding: 10px 20px;
+    text-align: center;
+    font-weight: bold;
+    color: var(--text-color);
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+   
+  button.selected{
+    background-color: var(--bg-accent); 
+  color: var(--text-color);
+  border-color: var(--text-color);
+  outline: none;
+  }
+
+  .slider {
+    width: 50%;
+    height: 100%;
+    background-color: #fff;
+    transition: transform 0.3s;
+  }
+  
+  .active .slider {
+    transform: translateX(0%);
+  }
+  
+  .previous .slider {
+    transform: translateX(100%);
+  }
+  
+  .ordersLayoutDiv{
+    display: flex;
+    flex-direction: row;
+    gap: 80px;
+    width: 90vw;
+    height: 80vh;
+    justify-content: center;
+    align-items: start;
+  }
+
+  .ordersList{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-height: 55vh;
+    padding-bottom: 5px;
+    overflow-y: auto;
+  }
+  .orderItem{
+    display: flex;
+    flex-direction : row;
+    width: 100%;
+  }
+  .orderItem p{
+    min-width: 25%;
+  }

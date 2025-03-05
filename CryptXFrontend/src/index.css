@@ -1,0 +1,88 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: var(--dark-color);
+  background-color: #EBE6D6;
+
+  --nav-size: 60px;
+  --bg:  #EBE6D6;
+  --bg-accent: #EFD0BE;
+  --text-color: #C1251F;
+  --dark-color: #434337;
+  --speed: 500ms; 
+  --beforeElementLeft: 0;
+  --beforeElementWidth: 0;
+  --afterElementLeft: 0;
+  --afterElementWidth: 0;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+a {
+  font-weight: 500;
+  color: var(--text-color);
+  text-decoration: inherit;
+}
+a:hover {
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  background-color: var(--text-color);
+  color: var(--bg);
+  border: 2px solid var(--bg);
+  border-radius: 30px;
+  transition: transform 0.3s, background-color 0.3s, color 0.3s,border-color 0.3s;
+}
+button:hover {
+  background-color: var(--bg-accent); /* Change background color on hover */
+  color: var(--text-color);
+  border-color: var(--text-color);
+}
+button:focus,
+button:focus-visible {
+  outline: none;
+}
+
+#orderThead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: var(--text-color);
+    background-color: var(--bg);
+  }
+  a:hover {
+    color: var(--text-color);
+  }
+  button {
+    background-color: var(--bg-accent);
+  }
+}

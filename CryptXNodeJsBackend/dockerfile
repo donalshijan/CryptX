@@ -1,0 +1,27 @@
+# Use an official Node.js runtime as the base image
+FROM node:14
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy package.json and package-lock.json to the working directory
+COPY package*.json ./
+
+# Install application dependencies
+RUN npm install
+
+# Copy the rest of the application code to the container
+COPY . .
+
+# Expose the port that your Node.js application will run on
+EXPOSE 3000
+
+ENV GOOGLE_APPLICATION_CREDENTIALS="/app/cryptx-394700-b6d3d3b86806-2.json"
+
+# Copy the wait-for-it script into a directory in the PATH
+COPY wait-for-it.sh /usr/local/bin/wait-for-it.sh
+
+RUN chmod +x /usr/local/bin/wait-for-it.sh
+
+# Define the command to run the wait-for-it script and then start the Node.js server.
+CMD ["bash","wait-for-it.sh", "rabbitmq:5672", "--", "node", "Server.js"]

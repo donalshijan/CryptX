@@ -1,0 +1,46 @@
+# Use the official Go image as the base image
+FROM golang:latest AS builder
+
+# Set environment variables for the build
+ENV CGO_ENABLED=1
+ENV GOOS=linux
+ENV GOARCH=arm64
+
+# Set the working directory inside the container
+WORKDIR /go/src/GoBackend
+
+# Copy go.mod and go.sum to download dependencies first
+COPY go.mod go.sum ./
+RUN go mod download
+
+# Install librdkafka-dev and librdkafka1 packages
+RUN apt-get update && apt-get install -y --no-install-recommends librdkafka-dev 
+
+# Copy the rest of your Go code into the container's working directoryb
+COPY . .
+
+# # Build the Go application
+RUN go build -o main -tags dynamic .
+
+# # Use a smaller base image for the final container
+FROM debian:bookworm
+
+# # Install CA certificates and librdkafka1
+RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates librdkafka1
+
+# # Set the working directory inside the container
+WORKDIR /root/
+
+# Copy the built Go application from the builder stage
+COPY --from=builder /go/src/GoBackend/main .
+# Copy the .env file
+COPY --from=builder /go/src/GoBackend/.env .
+# Expose the port your application runs on
+EXPOSE 8080
+
+# Define the entry point command
+# CMD ["./main"]
+# Command to run the application
+# CMD ["go", "run", "main.go"]
+# Add a delay before starting the application
+CMD ["bash", "-c", "sleep 10 && ./main"]

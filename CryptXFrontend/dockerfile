@@ -1,0 +1,23 @@
+# Use an official Node.js runtime as the base image
+FROM node:16.13.1
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy package.json and package-lock.json (if available)
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of the application code
+COPY . .
+
+# Build your React app for production (you might need to adjust this based on your setup)
+# RUN npm run build
+
+# Expose the port your app will run on (typically 80 for HTTP)
+EXPOSE 5173
+
+# Define the command to run your app (start script in package.json)
+CMD ["npm", "run", "dev"]

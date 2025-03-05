@@ -1,0 +1,161 @@
+.ApplayoutBody{
+    width:100%;
+    display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow-x: hidden; 
+
+  }
+  main {
+    flex-grow: 1; /* Make the main content area expand to fill remaining height */
+    overflow-y: auto; /*Enable vertical scrolling for the main content */
+  }
+  footer {
+    padding: 1rem;
+    background-color: var(--bg-accent);
+    color: var(--text-color);
+    font-size: larger;
+    text-align: center;
+  }
+  .AppBodyMain {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    justify-content: space-around;
+    align-items: center;
+}
+  canvas:nth-of-type(2){
+    max-width: 1000px;
+    min-width: 800px;
+    max-height : 400px;
+  }
+  .dashboard {
+    background-color: var(--bg);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 90vw;
+    height: 90vh;
+    justify-content: space-evenly;
+    align-items: center;
+    overflow-y: visible;
+}
+.chartsSectionOfDashboard{
+  display: flex;
+  flex-direction: row;
+  min-height: 360px;
+  gap: 30px;
+  width: 100%;
+  height: 50%;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.chartsSectionOfDashboard div:first-of-type {
+    flex-basis: 1;
+    flex-grow: 1;
+    width: 24%;
+    height: 85%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0px 0px 8px 1px var(--dark-color);
+}
+#doughnutDiv{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 80%;
+  box-shadow: none;
+  padding-bottom: 5px;
+}
+#linechartDiv{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 80%;
+  box-shadow: none;
+  padding-bottom: 5px;
+}
+.chartsSectionOfDashboard div:first-of-type div canvas{
+  min-width: 100px;
+  max-width: 400px;
+  max-height: 400px;
+}
+.chartsSectionOfDashboard div:nth-of-type(2) {
+  flex-basis: 2;
+  flex-grow: 2;
+  width: 50%;
+  height: 85%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0px 0px 8px 1px var(--dark-color);
+}
+.chartsSectionOfDashboard div:nth-of-type(2) div canvas{
+  min-width: 100px;
+  max-width: 1000px;
+  max-height: 400px;
+}
+.ordersSectionOfDashboard{
+  width: 100%;
+  height: 40%;
+  margin-bottom: 10px;
+  box-shadow: 0px 0px 8px 1px var(--dark-color);
+  overflow-y:scroll;
+}
+
+.ordersSectionOfDashboard .orderComponentDiv{
+  margin: 15px 15px;
+}
+.ordersSectionOfDashboard .orderComponentDiv h3{
+  position: sticky;
+  top:0;
+  background-color: var(--bg);
+}
+/* Media queries for screens smaller than 1024px */
+@media (max-width: 768px) {
+  .dashboard {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 90vh;
+    overflow-y: auto;
+    gap: 10px;
+  }
+
+  .chartsSectionOfDashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 90vh;
+    /* overflow-y: auto; */
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    padding-top: 20px;
+    padding-bottom: 10px;
+  }
+  #doughnutDiv,#linechartDiv{
+    height: 70%;
+
+  }
+  .chartsSectionOfDashboard div:first-of-type,
+  .chartsSectionOfDashboard div:nth-of-type(2) {
+    display: block;
+    width: 90%;
+    height: 40%;
+  }
+
+  .chartsSectionOfDashboard div:first-of-type div canvas,
+  .chartsSectionOfDashboard div:nth-of-type(2) div canvas {
+    max-width: none;
+  }
+
+  .ordersSectionOfDashboard {
+    width: 90vw;
+    overflow-y:scroll;
+  }
+}
