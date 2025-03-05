@@ -4,16 +4,27 @@
  
 ## Frontend
  ReactJs
+
  Vite
+
  vanilla-CSS
+
  Visualization with charts from react-chartjs-2, to display wallet distributions in pie chart and asset price tracking chart.
+
  Real Time updates
+
  State management using jotai and React Hooks
+
  Nested Layouts and navigations
+
  OAuth and custom login
+
  JWT for authorization and session management
+
  UI Design
+
  Responsive UI with support for multiple screen sizes
+ 
 
 ## Backend
 
