@@ -13,6 +13,13 @@ services:
       - app-network
     depends_on:
       - kafka
+    environment:
+      - POSTGRES_HOST=postgresdb  
+      - POSTGRES_PORT=5432        
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=cryptx
+      - POSTGRES_SSLMODE=disable  
     volumes:
       - type: bind
         source: ./GoBackend/main.go
@@ -118,10 +125,25 @@ services:
     networks:
       - app-network
 
+  zk-cleanup:
+    image: confluentinc/cp-zookeeper:7.4.4
+    container_name: zk-cleanup
+    entrypoint: ["/bin/bash", "-c", "chmod +x /cleanup/cleanup_zk.sh && /cleanup/cleanup_zk.sh"]
+    depends_on:
+      - zookeeper
+    volumes:
+      - ./cleanup_zk.sh:/cleanup/cleanup_zk.sh
+    networks:
+      - app-network
+
+
   zookeeper:
     image: confluentinc/cp-zookeeper:7.4.4
     container_name: zookeeper
     hostname: zookeeper
+    # volumes:
+    #   - ./cleanup_zk.sh:/cleanup/cleanup_zk.sh
+    # entrypoint: ["/bin/bash", "-c", "chmod +x /cleanup/cleanup_zk.sh && /cleanup/cleanup_zk.sh && /etc/confluent/docker/run"]
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
@@ -135,7 +157,7 @@ services:
     container_name: kafka
     hostname: kafka
     depends_on:
-      - zookeeper
+      - zk-cleanup
     ports:
       - 29092:29092
     environment:
@@ -150,7 +172,8 @@ services:
     volumes:
       - ./check_and_create_topic.sh:/usr/bin/check_and_create_topic.sh
       - ./wait-for-it.sh:/usr/bin/wait-for-it.sh
-    entrypoint: ["bash", "-c", "chmod +x /usr/bin/check_and_create_topic.sh && chmod +x /usr/bin/wait-for-it.sh && /usr/bin/wait-for-it.sh zookeeper:2181 -t 60 -- /usr/bin/check_and_create_topic.sh"]
+    entrypoint: ["bash", "-c", "chmod +x /usr/bin/check_and_create_topic.sh && chmod +x /usr/bin/wait-for-it.sh && echo 'Cleaning Kafka meta.properties and logs...' && \
+                  rm -rf /var/lib/kafka/data/meta.properties /var/lib/kafka/data/logs/* && /usr/bin/wait-for-it.sh zookeeper:2181 -t 60 -- /usr/bin/check_and_create_topic.sh"]
 
 networks:
   app-network:
